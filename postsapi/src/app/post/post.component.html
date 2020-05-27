@@ -1,0 +1,86 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="#">{{ app_name }}</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
+    aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor01">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#postForm" (click)="showAddPostForm()">Add a post</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="text" placeholder="Search for posts" name="search"
+        [(ngModel)]="searchText">
+    </form>
+  </div>
+</nav>
+
+
+<div class="container mt-5">
+  <!--Form Post-->
+  <div class="row collapse mb-5" id="postForm" *ngIf="! displayComments">
+    <div class="col-12">
+      <div class="form-group">
+        <label for="title">Post Title:</label>
+        <input type="text" class="form-control" id="title" [(ngModel)]="titleToAdd">
+      </div>
+      <div class="form-group">
+        <label for="body">Post Body:</label>
+        <textarea class="form-control" rows="5" id="body" [(ngModel)]="bodyToAdd"></textarea>
+      </div>
+      <button type="button" class="btn btn-primary" (click)="addPost()">Submit</button>
+    </div>
+  </div>
+
+  <!--Posts-->
+  <div class="row" *ngIf="! displayComments">
+    <div class="col-12" *ngFor="let post of posts | search : searchText">
+      <div class=" card border-primary mb-3">
+        <div class="card-header">{{post.title}}</div>
+        <div class="card-body">
+          <p class="card-text">{{post.body}}</p>
+        </div>
+        <div class="card-footer">
+          <button type="button" class="btn btn-link" (click)="getComments(post.id)">Comments
+            ({{ getCommentsNumber(post.id) }})</button>
+          <button type="button" class="btn btn-danger" (click)="delete(post)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Comments-->
+  <div class="row" *ngIf="displayComments">
+
+    <div class="col-12">
+      <div class="jumbotron">
+        <h1 class="display-6">{{ postToDisplay.title }}</h1>
+        <p class="lead">{{ postToDisplay.body }}</p>
+        <hr class="my-4">
+        <p class="lead">
+          <a class="btn btn-primary btn-lg" role="button" (click)="goBackToPosts()">go back to posts</a>
+        </p>
+      </div>
+    </div>
+
+
+    <div class="col-12 mb-5" *ngFor="let comment of commentToDisplay">
+      <blockquote class="blockquote">
+        <p class="mb-0">{{comment.body}}</p>
+        <footer class="blockquote-footer">Comment by <cite title="Source Title">{{comment.name}}</cite></footer>
+      </blockquote>
+    </div>
+
+    <div class="col-12 mb-5">
+      <div class="form-group">
+        <label for="body">Post a comment:</label>
+        <textarea class="form-control" rows="5" id="body" [(ngModel)]="commentText"></textarea>
+      </div>
+      <button type="button" class="btn btn-primary" (click)="addComment(postToDisplay.id)">Submit</button>
+    </div>
+  </div>
+
+</div>
