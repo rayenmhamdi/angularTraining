@@ -1,0 +1,18 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "body": "Get a full fake REST API with zero coding in less than 30 seconds"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "I want to filter my text data",
+      "email": "jhondoe@company.com",
+      "name": "jhon Doe",
+      "postId": 1
+    }
+  ]
+}
